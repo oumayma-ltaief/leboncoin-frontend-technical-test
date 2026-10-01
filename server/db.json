@@ -1,0 +1,280 @@
+{
+  "conversations": [
+    {
+      "id": 1,
+      "recipientId": 2,
+      "recipientNickname": "Jeremie",
+      "senderId": 1,
+      "senderNickname": "Thibaut",
+      "lastMessageTimestamp": 1791014580
+    },
+    {
+      "id": 2,
+      "recipientId": 3,
+      "recipientNickname": "Patrick",
+      "senderId": 1,
+      "senderNickname": "Thibaut",
+      "lastMessageTimestamp": 1620286200
+    },
+    {
+      "id": 3,
+      "recipientId": 1,
+      "recipientNickname": "Thibaut",
+      "senderId": 4,
+      "senderNickname": "Elodie",
+      "lastMessageTimestamp": 1790931780
+    },
+    {
+      "id": 4,
+      "recipientId": 1,
+      "recipientNickname": "Thibaut",
+      "senderId": 5,
+      "senderNickname": "Camille",
+      "lastMessageTimestamp": 1790667060
+    },
+    {
+      "id": 5,
+      "recipientId": 6,
+      "recipientNickname": "Sophie",
+      "senderId": 1,
+      "senderNickname": "Thibaut",
+      "lastMessageTimestamp": 1789210920
+    },
+    {
+      "id": 6,
+      "recipientId": 1,
+      "recipientNickname": "Thibaut",
+      "senderId": 7,
+      "senderNickname": "Lucas",
+      "lastMessageTimestamp": 1766086200
+    }
+  ],
+  "messages": [
+    {
+      "id": 1,
+      "conversationId": 1,
+      "timestamp": 1625637840,
+      "authorId": 1,
+      "body": "Bonjour c'est le premier message de la première conversation"
+    },
+    {
+      "id": 2,
+      "conversationId": 1,
+      "timestamp": 1625637900,
+      "authorId": 1,
+      "body": "Bonjour c'est le second message de la première conversation"
+    },
+    {
+      "id": 3,
+      "conversationId": 1,
+      "timestamp": 1625648640,
+      "authorId": 2,
+      "body": "Bonjour c'est le troisième message de la première conversation"
+    },
+    {
+      "id": 4,
+      "conversationId": 1,
+      "timestamp": 1781285400,
+      "authorId": 2,
+      "body": "Bonjour Thibaut, je remets mon vélo en vente. Toujours intéressé ?"
+    },
+    {
+      "id": 5,
+      "conversationId": 1,
+      "timestamp": 1781286120,
+      "authorId": 1,
+      "body": "Bonjour Jérémie, oui ! Il est toujours en bon état ?"
+    },
+    {
+      "id": 6,
+      "conversationId": 1,
+      "timestamp": 1790669700,
+      "authorId": 2,
+      "body": "Oui, il est en très bon état : cadre aluminium taille M, pneus et freins changés au printemps, dérailleur révisé le mois dernier. Je le vends avec l'antivol, les garde-boue et un porte-bagages. Il a toujours dormi à l'intérieur et je peux vous envoyer d'autres photos si besoin."
+    },
+    {
+      "id": 7,
+      "conversationId": 1,
+      "timestamp": 1790679780,
+      "authorId": 1,
+      "body": "Parfait, merci pour tous ces détails."
+    },
+    {
+      "id": 8,
+      "conversationId": 1,
+      "timestamp": 1790947860,
+      "authorId": 1,
+      "body": "Je peux passer le voir ce week-end si cela vous convient."
+    },
+    {
+      "id": 9,
+      "conversationId": 1,
+      "timestamp": 1790948400,
+      "authorId": 2,
+      "body": "Samedi matin vers 10h, ça irait ?"
+    },
+    {
+      "id": 10,
+      "conversationId": 1,
+      "timestamp": 1791014100,
+      "authorId": 1,
+      "body": "Oui, c'est parfait."
+    },
+    {
+      "id": 11,
+      "conversationId": 1,
+      "timestamp": 1791014520,
+      "authorId": 2,
+      "body": "Super, à tout à l'heure !"
+    },
+    {
+      "id": 12,
+      "conversationId": 1,
+      "timestamp": 1791014580,
+      "authorId": 1,
+      "body": "OK"
+    },
+    {
+      "id": 13,
+      "conversationId": 2,
+      "timestamp": 1620284640,
+      "authorId": 1,
+      "body": "Bonjour c'est le premier message de la seconde conversation"
+    },
+    {
+      "id": 14,
+      "conversationId": 2,
+      "timestamp": 1620286200,
+      "authorId": 3,
+      "body": "Bonjour Thibaut, bien reçu, merci !"
+    },
+    {
+      "id": 15,
+      "conversationId": 3,
+      "timestamp": 1790792400,
+      "authorId": 4,
+      "body": "Bonjour Thibaut,\nVotre annonce m'intéresse.\nEst-elle toujours disponible ?"
+    },
+    {
+      "id": 16,
+      "conversationId": 3,
+      "timestamp": 1790931720,
+      "authorId": 1,
+      "body": "Bonjour Elodie, merci pour votre message."
+    },
+    {
+      "id": 17,
+      "conversationId": 3,
+      "timestamp": 1790931780,
+      "authorId": 1,
+      "body": "L'article est toujours en vente, n'hésitez pas si vous avez des questions."
+    },
+    {
+      "id": 18,
+      "conversationId": 4,
+      "timestamp": 1790615520,
+      "authorId": 5,
+      "body": "Bonjour, la table basse est-elle toujours disponible ?"
+    },
+    {
+      "id": 19,
+      "conversationId": 4,
+      "timestamp": 1790617200,
+      "authorId": 1,
+      "body": "Bonjour Camille, oui elle est encore disponible."
+    },
+    {
+      "id": 20,
+      "conversationId": 4,
+      "timestamp": 1790665500,
+      "authorId": 5,
+      "body": "Parfait. Seriez-vous d'accord pour 60 euros ?"
+    },
+    {
+      "id": 21,
+      "conversationId": 4,
+      "timestamp": 1790667060,
+      "authorId": 1,
+      "body": "D'accord pour 60 euros si vous venez la chercher."
+    },
+    {
+      "id": 22,
+      "conversationId": 5,
+      "timestamp": 1789208400,
+      "authorId": 1,
+      "body": "Bonjour Sophie, votre annonce pour le vélo enfant m'intéresse."
+    },
+    {
+      "id": 23,
+      "conversationId": 5,
+      "timestamp": 1789210020,
+      "authorId": 6,
+      "body": "Bonjour ! Il est en très bon état, il a très peu servi."
+    },
+    {
+      "id": 24,
+      "conversationId": 5,
+      "timestamp": 1789210920,
+      "authorId": 1,
+      "body": "Merci, je vous recontacte ce week-end."
+    },
+    {
+      "id": 25,
+      "conversationId": 6,
+      "timestamp": 1766085300,
+      "authorId": 7,
+      "body": "Bonsoir, est-ce que la console est vendue avec ses deux manettes ?"
+    },
+    {
+      "id": 26,
+      "conversationId": 6,
+      "timestamp": 1766085720,
+      "authorId": 1,
+      "body": "Bonsoir Lucas, oui, les deux manettes et le câble sont inclus."
+    },
+    {
+      "id": 27,
+      "conversationId": 6,
+      "timestamp": 1766086200,
+      "authorId": 7,
+      "body": "Très bien, merci pour la réponse rapide."
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "nickname": "Thibaut",
+      "token": "xxxx"
+    },
+    {
+      "id": 2,
+      "nickname": "Jeremie",
+      "token": "xxxx"
+    },
+    {
+      "id": 3,
+      "nickname": "Patrick",
+      "token": "xxxx"
+    },
+    {
+      "id": 4,
+      "nickname": "Elodie",
+      "token": "xxxx"
+    },
+    {
+      "id": 5,
+      "nickname": "Camille",
+      "token": "xxxx"
+    },
+    {
+      "id": 6,
+      "nickname": "Sophie",
+      "token": "xxxx"
+    },
+    {
+      "id": 7,
+      "nickname": "Lucas",
+      "token": "xxxx"
+    }
+  ]
+}
