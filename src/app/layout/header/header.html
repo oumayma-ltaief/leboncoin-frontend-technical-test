@@ -1,0 +1,15 @@
+<header class="flex h-14 shrink-0 items-center justify-between border-b border-gray-200 bg-white px-4">
+  <a routerLink="/" title="Back to home" class="flex shrink-0 items-center">
+    <img src="leboncoin-logo.svg" alt="leboncoin" width="164" height="30" class="h-5 w-auto sm:h-7" />
+  </a>
+
+  <div class="flex items-center gap-3">
+    <div class="relative">
+      <div class="flex size-9 items-center justify-center rounded-full bg-brand-soft text-sm font-semibold text-brand-dark" aria-hidden="true">
+        {{ initial }}
+      </div>
+      <span class="absolute -right-0.5 -bottom-0.5 size-3.5 rounded-full border-2 border-white bg-green-500" aria-hidden="true"></span>
+      <span class="sr-only">{{ name }}, online</span>
+    </div>
+  </div>
+</header>

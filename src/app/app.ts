@@ -1,12 +1,11 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
+import { Header } from './layout/header/header';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
+  imports: [Header, RouterOutlet],
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
+  templateUrl: './app.html'
 })
-export class App {
-  protected readonly title = signal('leboncoin-frontend-technical-test');
-}
+export class App {}
