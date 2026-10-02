@@ -11,8 +11,8 @@ class ConversationEmptyStub {}
 @Component({ selector: 'app-conversation-detail-stub', template: '' })
 class ConversationDetailStub {}
 
-const CONVERSATION_LIST = 'aside';
-const CONVERSATION_PANEL = 'section[aria-label="Conversation"]';
+const CONVERSATION_LIST_SELECTOR = 'aside';
+const CONVERSATION_PANEL_SELECTOR = 'section[aria-label="Conversation"]';
 
 describe('ConversationsLayout', () => {
   let routerHarness: RouterTestingHarness;
@@ -45,16 +45,16 @@ describe('ConversationsLayout', () => {
       await routerHarness.navigateByUrl('/conversations', ConversationsLayout);
     });
 
-    it('should hide the conversation list when a conversation is opened', async () => {
-      expect(isElementVisible(CONVERSATION_LIST)).toBe(true);
+    it('should hide conversation list when a conversation is opened', async () => {
+      expect(isElementVisible(CONVERSATION_LIST_SELECTOR)).toBe(true);
       await routerHarness.navigateByUrl('/conversations/1');
-      expect(isElementVisible(CONVERSATION_LIST)).toBe(false);
+      expect(isElementVisible(CONVERSATION_LIST_SELECTOR)).toBe(false);
     });
 
     it('should show the conversation panel when a conversation is opened', async () => {
-      expect(isElementVisible(CONVERSATION_PANEL)).toBe(false);
+      expect(isElementVisible(CONVERSATION_PANEL_SELECTOR)).toBe(false);
       await routerHarness.navigateByUrl('/conversations/1');
-      expect(isElementVisible(CONVERSATION_PANEL)).toBe(true);
+      expect(isElementVisible(CONVERSATION_PANEL_SELECTOR)).toBe(true);
     });
   });
 
@@ -63,16 +63,16 @@ describe('ConversationsLayout', () => {
       await routerHarness.navigateByUrl('/conversations/1', ConversationsLayout);
     });
 
-    it('should show the conversation list when the conversation is closed', async () => {
-      expect(isElementVisible(CONVERSATION_LIST)).toBe(false);
+    it('should show conversation list when the conversation is closed', async () => {
+      expect(isElementVisible(CONVERSATION_LIST_SELECTOR)).toBe(false);
       await routerHarness.navigateByUrl('/conversations');
-      expect(isElementVisible(CONVERSATION_LIST)).toBe(true);
+      expect(isElementVisible(CONVERSATION_LIST_SELECTOR)).toBe(true);
     });
 
     it('should hide the conversation panel when the conversation is closed', async () => {
-      expect(isElementVisible(CONVERSATION_PANEL)).toBe(true);
+      expect(isElementVisible(CONVERSATION_PANEL_SELECTOR)).toBe(true);
       await routerHarness.navigateByUrl('/conversations');
-      expect(isElementVisible(CONVERSATION_PANEL)).toBe(false);
+      expect(isElementVisible(CONVERSATION_PANEL_SELECTOR)).toBe(false);
     });
   });
 });

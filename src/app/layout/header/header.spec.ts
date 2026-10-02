@@ -4,8 +4,8 @@ import { provideRouter } from '@angular/router';
 import { Header } from './header';
 
 describe('Header', () => {
-  let component: Header;
   let fixture: ComponentFixture<Header>;
+  let header: Header;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -13,11 +13,11 @@ describe('Header', () => {
       providers: [provideRouter([])]
     }).compileComponents();
     fixture = TestBed.createComponent(Header);
-    component = fixture.componentInstance;
+    header = fixture.componentInstance;
     fixture.detectChanges();
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(header).toBeTruthy();
   });
 });

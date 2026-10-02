@@ -7,3 +7,9 @@
   --color-brand-dark: #b94700;
   --color-brand-soft: #fff1e8;
 }
+
+@layer components {
+  .button-primary {
+    @apply cursor-pointer rounded-xl bg-brand px-4 py-2 text-sm font-bold text-white transition duration-150 hover:bg-brand-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand motion-safe:active:scale-95;
+  }
+}

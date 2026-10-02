@@ -1,13 +1,12 @@
+import { ActiveUser } from '../active-user/active-user';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { UserSelector } from '../user-selector/user-selector';
 
 @Component({
-  imports: [RouterLink],
+  imports: [ActiveUser, RouterLink, UserSelector],
   selector: 'app-header',
   styleUrl: './header.css',
   templateUrl: './header.html'
 })
-export class Header {
-  protected readonly name = 'Current user';
-  protected readonly initial = this.name.charAt(0).toUpperCase();
-}
+export class Header {}

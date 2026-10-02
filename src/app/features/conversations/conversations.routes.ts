@@ -1,3 +1,4 @@
+import { activeUserGuard } from './guards/active-user/active-user';
 import { Routes } from '@angular/router';
 
 export const CONVERSATIONS_ROUTES: Routes = [
@@ -12,6 +13,7 @@ export const CONVERSATIONS_ROUTES: Routes = [
       },
       {
         path: ':id',
+        canActivate: [activeUserGuard],
         loadComponent: () => import('./pages/conversation-detail/conversation-detail').then((m) => m.ConversationDetail)
       }
     ]

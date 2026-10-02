@@ -1,8 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+
 import { ConversationDetail } from './conversation-detail';
 
 describe('ConversationDetail', () => {
-  let component: ConversationDetail;
+  let conversationDetail: ConversationDetail;
   let fixture: ComponentFixture<ConversationDetail>;
 
   beforeEach(async () => {
@@ -10,11 +11,11 @@ describe('ConversationDetail', () => {
       imports: [ConversationDetail]
     }).compileComponents();
     fixture = TestBed.createComponent(ConversationDetail);
-    component = fixture.componentInstance;
+    conversationDetail = fixture.componentInstance;
     await fixture.whenStable();
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(conversationDetail).toBeTruthy();
   });
 });
