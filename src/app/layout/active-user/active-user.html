@@ -1,0 +1,9 @@
+@if (activeUser(); as user) {
+  <div class="relative">
+    <div class="flex size-9 items-center justify-center rounded-full bg-brand-soft text-sm font-semibold text-brand-dark" aria-hidden="true">
+      {{ user.nickname[0] | uppercase }}
+      <span class="absolute -right-0.5 -bottom-0.5 size-3.5 rounded-full border-2 border-white" [class]="connectivityStatusClass()"></span>
+    </div>
+    <span class="sr-only">{{ user.nickname }}, {{ connectivityStatusLabel() }}</span>
+  </div>
+}

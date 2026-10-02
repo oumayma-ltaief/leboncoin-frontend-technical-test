@@ -2,6 +2,12 @@
   <h1 class="text-lg font-bold">Messages</h1>
 </header>
 
-<nav class="flex-1 overflow-y-auto" aria-label="Conversations">
-  <p class="p-4 text-sm text-gray-500">No conversations yet.</p>
+<nav class="flex flex-1 flex-col overflow-y-auto" aria-label="Conversations">
+  @if (activeUser()) {
+    <app-info-message class="flex-1" title="No conversations yet" description="Your conversations will appear here." />
+  } @else if (isLoadingUserList()) {
+    <app-skeleton class="p-4" itemCount="3" />
+  } @else {
+    <app-info-message class="flex-1" title="No active user" description="Conversations will appear here once a user is active." />
+  }
 </nav>
