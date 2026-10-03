@@ -1,6 +1,7 @@
 import { AppError } from '../../core/errors/models/app-error/app-error';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import type { Mock } from 'vitest';
+import { Router } from '@angular/router';
 import { signal, WritableSignal } from '@angular/core';
 import { User } from '../../core/users/models/user/user.interface';
 import { UserSession } from '../../core/users/services/user-session/user-session';
@@ -97,12 +98,16 @@ describe('UserSelector', () => {
 
   describe('Select user', () => {
     describe('When user list is loaded', () => {
-      it('should activate the user chosen in the dropdown', () => {
+      it('should activate the user chosen in the dropdown and check the access to the current page again', () => {
+        const router = TestBed.inject(Router);
+        vi.spyOn(router, 'navigateByUrl').mockResolvedValue(true);
         const dropdown = getDropdown()!;
         expect(userSession.setActiveUser).not.toHaveBeenCalled();
+        expect(router.navigateByUrl).not.toHaveBeenCalled();
         dropdown.value = '2';
         dropdown.dispatchEvent(new Event('change'));
         expect(userSession.setActiveUser).toHaveBeenCalledWith(2);
+        expect(router.navigateByUrl).toHaveBeenCalledWith(router.url, { onSameUrlNavigation: 'reload' });
       });
     });
   });

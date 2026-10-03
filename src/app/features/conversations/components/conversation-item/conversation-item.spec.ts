@@ -1,0 +1,44 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Conversation } from '../../models/conversation/conversation.interface';
+import { provideRouter } from '@angular/router';
+
+import { ConversationItem } from './conversation-item';
+
+describe('ConversationItem', () => {
+  let conversation: Conversation;
+  let fixture: ComponentFixture<ConversationItem>;
+
+  function getContent(): string {
+    fixture.detectChanges();
+    return (fixture.nativeElement as HTMLElement).textContent;
+  }
+
+  beforeEach(() => {
+    conversation = { id: 7, lastMessageTimestamp: 1625659200, recipientId: 2, recipientNickname: 'Bob', senderId: 1, senderNickname: 'Alice' };
+    TestBed.configureTestingModule({ providers: [provideRouter([])] });
+    fixture = TestBed.createComponent(ConversationItem);
+    fixture.componentRef.setInput('conversation', conversation);
+  });
+
+  it('should link to the conversation and show the date of its last message', () => {
+    fixture.componentRef.setInput('activeUserId', conversation.senderId);
+    expect(getContent()).toContain('Jul 7, 2021');
+    expect((fixture.nativeElement as HTMLElement).querySelector('a')!.getAttribute('href')).toBe('/conversations/7');
+  });
+
+  describe('Contact nickname setting', () => {
+    describe('When the active user is the sender of the conversation', () => {
+      it('should show the nickname of the recipient', () => {
+        fixture.componentRef.setInput('activeUserId', conversation.senderId);
+        expect(getContent()).toContain(conversation.recipientNickname);
+      });
+    });
+
+    describe('When the active user is the recipient of the conversation', () => {
+      it('should show the nickname of the sender', () => {
+        fixture.componentRef.setInput('activeUserId', conversation.recipientId);
+        expect(getContent()).toContain(conversation.senderNickname);
+      });
+    });
+  });
+});
