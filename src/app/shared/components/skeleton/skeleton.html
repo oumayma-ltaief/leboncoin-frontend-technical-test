@@ -1,3 +1,22 @@
 @for (item of items(); track item) {
-  <div class="rounded-lg motion-safe:animate-pulse" [class]="itemClass()"></div>
+  @switch (shape()) {
+    @case ('conversation-item') {
+      <div class="flex items-center gap-3 border-b border-gray-100 px-4 py-3 last:border-b-0 motion-safe:animate-pulse">
+        <div class="size-12 shrink-0 rounded-full" [class]="toneClass()"></div>
+        <div class="flex min-w-0 flex-1 flex-col gap-2.5">
+          <div class="flex items-center justify-between gap-2">
+            <div class="h-3.5 w-28 rounded-full" [class]="toneClass()"></div>
+            <div class="h-3 w-16 rounded-full" [class]="toneClass()"></div>
+          </div>
+          <div class="h-3 w-2/3 rounded-full" [class]="toneClass()"></div>
+        </div>
+      </div>
+    }
+    @case ('field') {
+      <div class="h-[34px] w-28 rounded-lg motion-safe:animate-pulse" [class]="toneClass()"></div>
+    }
+    @default {
+      <div class="mb-3 h-12 w-full rounded-lg motion-safe:animate-pulse" [class]="toneClass()"></div>
+    }
+  }
 }

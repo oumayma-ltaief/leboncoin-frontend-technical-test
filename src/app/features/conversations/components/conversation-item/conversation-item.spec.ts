@@ -26,18 +26,20 @@ describe('ConversationItem', () => {
     expect((fixture.nativeElement as HTMLElement).querySelector('a')!.getAttribute('href')).toBe('/conversations/7');
   });
 
-  describe('Contact nickname setting', () => {
+  describe('Contact nickname and conversation starter setting', () => {
     describe('When the active user is the sender of the conversation', () => {
-      it('should show the nickname of the recipient', () => {
+      it('should show the nickname of the recipient and that the active user started the conversation', () => {
         fixture.componentRef.setInput('activeUserId', conversation.senderId);
         expect(getContent()).toContain(conversation.recipientNickname);
+        expect(getContent()).toContain('You started this conversation');
       });
     });
 
     describe('When the active user is the recipient of the conversation', () => {
-      it('should show the nickname of the sender', () => {
+      it('should show the nickname of the sender and that the sender started the conversation', () => {
         fixture.componentRef.setInput('activeUserId', conversation.recipientId);
         expect(getContent()).toContain(conversation.senderNickname);
+        expect(getContent()).toContain(`${conversation.senderNickname} started this conversation`);
       });
     });
   });

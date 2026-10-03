@@ -4,6 +4,8 @@ import { CONVERSATIONS_URL } from '../../../../core/config/routes.config';
 import { DatePipe, UpperCasePipe } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
+const ACTIVE_USER_STARTER_LABEL = 'You';
+const CONVERSATION_STARTED_LABEL = 'started this conversation';
 const MILLISECONDS_PER_SECOND = 1000;
 
 @Component({
@@ -22,6 +24,11 @@ export class ConversationItem {
   protected readonly contactNickname = computed(() =>
     this.isActiveUserSender() ? this.conversation().recipientNickname : this.conversation().senderNickname
   );
+  protected readonly conversationStarterLabel = computed(() => `${this.getConversationStarterName()} ${CONVERSATION_STARTED_LABEL}`);
   protected readonly conversationUrl = computed(() => [CONVERSATIONS_URL, this.conversation().id]);
   protected readonly lastMessageDate = computed(() => new Date(this.conversation().lastMessageTimestamp * MILLISECONDS_PER_SECOND));
+
+  private getConversationStarterName(): string {
+    return this.isActiveUserSender() ? ACTIVE_USER_STARTER_LABEL : this.conversation().senderNickname;
+  }
 }
