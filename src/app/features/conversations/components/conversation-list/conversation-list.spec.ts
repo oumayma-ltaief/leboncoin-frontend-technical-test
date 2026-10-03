@@ -1,4 +1,9 @@
+import { ActiveUserConversations } from '../../services/active-user-conversations/active-user-conversations';
+import { AppError } from '../../../../core/errors/models/app-error/app-error';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Conversation } from '../../models/conversation/conversation.interface';
+import type { Mock } from 'vitest';
+import { provideRouter } from '@angular/router';
 import { signal, WritableSignal } from '@angular/core';
 import { User } from '../../../../core/users/models/user/user.interface';
 import { UserSession } from '../../../../core/users/services/user-session/user-session';
@@ -6,7 +11,13 @@ import { UserSession } from '../../../../core/users/services/user-session/user-s
 import { ConversationList } from './conversation-list';
 
 describe('ConversationList', () => {
-  let activeUser: User;
+  let activeUserConversations: {
+    conversationList: WritableSignal<Conversation[]>;
+    conversationListLoadingError: WritableSignal<AppError | undefined>;
+    isLoadingConversationList: WritableSignal<boolean>;
+    reloadConversationList: Mock;
+  };
+  let conversationListElement: HTMLElement;
   let fixture: ComponentFixture<ConversationList>;
   let userSession: {
     activeUser: WritableSignal<User | undefined>;
@@ -15,13 +26,18 @@ describe('ConversationList', () => {
 
   function getContent(): string {
     fixture.detectChanges();
-    return (fixture.nativeElement as HTMLElement).querySelector('nav')!.textContent.trim();
+    return conversationListElement.querySelector('nav')!.textContent.trim();
   }
 
   function initMocks(): void {
-    activeUser = { id: 1, nickname: 'Alice', token: 'token-1' };
+    activeUserConversations = {
+      conversationList: signal<Conversation[]>([]),
+      conversationListLoadingError: signal<AppError | undefined>(undefined),
+      isLoadingConversationList: signal(false),
+      reloadConversationList: vi.fn()
+    };
     userSession = {
-      activeUser: signal<User | undefined>(undefined),
+      activeUser: signal<User | undefined>({ id: 1, nickname: 'Alice', token: 'token-1' }),
       isLoadingUserList: signal(false)
     };
   }
@@ -29,27 +45,74 @@ describe('ConversationList', () => {
   beforeEach(() => {
     initMocks();
     TestBed.configureTestingModule({
-      providers: [{ provide: UserSession, useValue: userSession }]
+      providers: [
+        provideRouter([]),
+        { provide: ActiveUserConversations, useValue: activeUserConversations },
+        { provide: UserSession, useValue: userSession }
+      ]
     });
     fixture = TestBed.createComponent(ConversationList);
+    conversationListElement = fixture.nativeElement as HTMLElement;
   });
 
-  describe('When no user is active', () => {
-    it('should show a loading state instead of the conversations while the user list is loading', () => {
-      userSession.isLoadingUserList.set(true);
-      expect(getContent()).toBe('');
-      expect((fixture.nativeElement as HTMLElement).querySelector('nav app-skeleton')).not.toBeNull();
+  describe('Show conversation list of the active user', () => {
+    describe('When user list or conversation list is loading', () => {
+      it('should show a skeleton instead of the conversations', () => {
+        userSession.isLoadingUserList.set(true);
+        expect(getContent()).toBe('');
+        expect(conversationListElement.querySelector('app-skeleton')).not.toBeNull();
+        userSession.isLoadingUserList.set(false);
+        activeUserConversations.isLoadingConversationList.set(true);
+        expect(getContent()).toBe('');
+        expect(conversationListElement.querySelector('app-skeleton')).not.toBeNull();
+      });
     });
 
-    it('should show that there is no active user instead of the conversations when the user list is not loading', () => {
-      expect(getContent()).toContain('No active user');
+    describe('When no user is active', () => {
+      it('should show that there is no active user', () => {
+        userSession.activeUser.set(undefined);
+        expect(getContent()).toContain('No active user');
+      });
+    });
+
+    describe('When conversation list failed to load', () => {
+      it('should show the error instead of the conversations', () => {
+        expect(getContent()).not.toContain("Couldn't load conversations");
+        activeUserConversations.conversationListLoadingError.set(new AppError('network'));
+        expect(getContent()).toContain("Couldn't load conversations");
+      });
+    });
+
+    describe('When the active user has no conversation', () => {
+      it('should show that there are no conversations yet', () => {
+        expect(getContent()).toContain('No conversations yet');
+      });
+    });
+
+    describe('When the active user has conversations', () => {
+      it('should list each conversation with the nickname of the other participant', () => {
+        activeUserConversations.conversationList.set([
+          { id: 2, lastMessageTimestamp: 1625637849, recipientId: 1, recipientNickname: 'Alice', senderId: 3, senderNickname: 'Carol' },
+          { id: 1, lastMessageTimestamp: 1620284667, recipientId: 2, recipientNickname: 'Bob', senderId: 1, senderNickname: 'Alice' }
+        ]);
+        fixture.detectChanges();
+        const conversationLinks = Array.from(conversationListElement.querySelectorAll('a'));
+        expect(conversationLinks.map((conversationLink) => conversationLink.getAttribute('href'))).toEqual(['/conversations/2', '/conversations/1']);
+        expect(getContent()).toContain('Carol');
+        expect(getContent()).toContain('Bob');
+      });
     });
   });
 
-  describe('When a user is active', () => {
-    it('should show the conversations content', () => {
-      userSession.activeUser.set(activeUser);
-      expect(getContent()).toContain('No conversations yet');
+  describe('Reload conversation list', () => {
+    describe('When conversation list failed to load', () => {
+      it('should reload conversation list when trying again', () => {
+        activeUserConversations.conversationListLoadingError.set(new AppError('network'));
+        fixture.detectChanges();
+        expect(activeUserConversations.reloadConversationList).not.toHaveBeenCalled();
+        conversationListElement.querySelector('button')!.click();
+        expect(activeUserConversations.reloadConversationList).toHaveBeenCalledTimes(1);
+      });
     });
   });
 });

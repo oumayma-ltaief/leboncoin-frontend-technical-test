@@ -3,10 +3,22 @@
 </header>
 
 <nav class="flex flex-1 flex-col overflow-y-auto" aria-label="Conversations">
-  @if (activeUser()) {
-    <app-info-message class="flex-1" title="No conversations yet" description="Your conversations will appear here." />
-  } @else if (isLoadingUserList()) {
+  @if (isLoading()) {
     <app-skeleton class="p-4" itemCount="3" />
+  } @else if (activeUser(); as user) {
+    @if (conversationListLoadingError(); as error) {
+      <app-error-message class="flex-1" title="Couldn't load conversations" [error]="error" (retry)="reloadConversationList()" />
+    } @else if (conversationList().length) {
+      <ul class="divide-y divide-gray-100">
+        @for (conversation of conversationList(); track conversation.id) {
+          <li>
+            <app-conversation-item [activeUserId]="user.id" [conversation]="conversation" />
+          </li>
+        }
+      </ul>
+    } @else {
+      <app-info-message class="flex-1" title="No conversations yet" description="Your conversations will appear here." />
+    }
   } @else {
     <app-info-message class="flex-1" title="No active user" description="Conversations will appear here once a user is active." />
   }

@@ -1,0 +1,14 @@
+<a
+  class="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-gray-50 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand"
+  routerLinkActive="bg-brand-soft hover:bg-brand-soft"
+  ariaCurrentWhenActive="page"
+  [routerLink]="conversationUrl()"
+>
+  <span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-orange-100 text-sm font-semibold text-brand-dark" aria-hidden="true">
+    {{ contactNickname()[0] | uppercase }}
+  </span>
+  <span class="flex min-w-0 flex-col">
+    <span class="truncate text-sm font-semibold text-gray-900">{{ contactNickname() }}</span>
+    <span class="text-xs text-gray-500">{{ lastMessageDate() | date: 'mediumDate' }}</span>
+  </span>
+</a>

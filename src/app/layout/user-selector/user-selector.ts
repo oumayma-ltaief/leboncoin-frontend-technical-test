@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ErrorMessage } from '../../shared/components/error-message/error-message';
 import { InfoMessage } from '../../shared/components/info-message/info-message';
+import { Router } from '@angular/router';
 import { Skeleton } from '../../shared/components/skeleton/skeleton';
 import { UserSession } from '../../core/users/services/user-session/user-session';
 
@@ -11,6 +12,7 @@ import { UserSession } from '../../core/users/services/user-session/user-session
   templateUrl: './user-selector.html'
 })
 export class UserSelector {
+  private readonly router = inject(Router);
   private readonly userSession = inject(UserSession);
 
   protected readonly userList = this.userSession.userList;
@@ -25,5 +27,10 @@ export class UserSelector {
   selectUser(userSelectionEvent: Event): void {
     const userId = Number((userSelectionEvent.target as HTMLSelectElement).value);
     this.userSession.setActiveUser(userId);
+    this.recheckCurrentPageAccess();
+  }
+
+  private recheckCurrentPageAccess(): void {
+    this.router.navigateByUrl(this.router.url, { onSameUrlNavigation: 'reload' });
   }
 }
