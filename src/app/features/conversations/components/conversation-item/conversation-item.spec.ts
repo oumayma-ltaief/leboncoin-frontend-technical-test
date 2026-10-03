@@ -20,9 +20,9 @@ describe('ConversationItem', () => {
     fixture.componentRef.setInput('conversation', conversation);
   });
 
-  it('should link to the conversation and show the date of its last message', () => {
+  it('should link to the conversation and show the day of its last message', () => {
     fixture.componentRef.setInput('activeUserId', conversation.senderId);
-    expect(getContent()).toContain('Jul 7, 2021');
+    expect(getContent()).toContain('July 7, 2021');
     expect((fixture.nativeElement as HTMLElement).querySelector('a')!.getAttribute('href')).toBe('/conversations/7');
   });
 

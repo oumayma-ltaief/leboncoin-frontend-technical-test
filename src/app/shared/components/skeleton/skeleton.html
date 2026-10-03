@@ -1,6 +1,6 @@
 @for (item of items(); track item) {
   @switch (shape()) {
-    @case ('conversation-item') {
+    @case ('conversation') {
       <div class="flex items-center gap-3 border-b border-gray-100 px-4 py-3 last:border-b-0 motion-safe:animate-pulse">
         <div class="size-12 shrink-0 rounded-full" [class]="toneClass()"></div>
         <div class="flex min-w-0 flex-1 flex-col gap-2.5">
@@ -14,6 +14,9 @@
     }
     @case ('field') {
       <div class="h-[34px] w-28 rounded-lg motion-safe:animate-pulse" [class]="toneClass()"></div>
+    }
+    @case ('message') {
+      <div class="mb-3 h-11 w-2/3 rounded-2xl odd:self-start even:self-end motion-safe:animate-pulse md:w-1/2" [class]="toneClass()"></div>
     }
     @default {
       <div class="mb-3 h-12 w-full rounded-lg motion-safe:animate-pulse" [class]="toneClass()"></div>

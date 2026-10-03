@@ -1,15 +1,16 @@
 import { Component, computed, input } from '@angular/core';
 import { Conversation } from '../../models/conversation/conversation.interface';
 import { CONVERSATIONS_URL } from '../../../../core/config/routes.config';
-import { DatePipe, UpperCasePipe } from '@angular/common';
+import { DayLabelPipe } from '../../../../shared/pipes/day-label/day-label';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { timestampToDate } from '../../../../shared/utils/timestamp-to-date/timestamp-to-date';
+import { UpperCasePipe } from '@angular/common';
 
 const ACTIVE_USER_STARTER_LABEL = 'You';
 const CONVERSATION_STARTED_LABEL = 'started this conversation';
-const MILLISECONDS_PER_SECOND = 1000;
 
 @Component({
-  imports: [DatePipe, RouterLink, RouterLinkActive, UpperCasePipe],
+  imports: [DayLabelPipe, RouterLink, RouterLinkActive, UpperCasePipe],
   selector: 'app-conversation-item',
   styleUrl: './conversation-item.css',
   templateUrl: './conversation-item.html',
@@ -26,7 +27,7 @@ export class ConversationItem {
   );
   protected readonly conversationStarterLabel = computed(() => `${this.getConversationStarterName()} ${CONVERSATION_STARTED_LABEL}`);
   protected readonly conversationUrl = computed(() => [CONVERSATIONS_URL, this.conversation().id]);
-  protected readonly lastMessageDate = computed(() => new Date(this.conversation().lastMessageTimestamp * MILLISECONDS_PER_SECOND));
+  protected readonly lastMessageDate = computed(() => timestampToDate(this.conversation().lastMessageTimestamp));
 
   private getConversationStarterName(): string {
     return this.isActiveUserSender() ? ACTIVE_USER_STARTER_LABEL : this.conversation().senderNickname;

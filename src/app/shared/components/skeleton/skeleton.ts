@@ -1,6 +1,6 @@
 import { Component, computed, input, numberAttribute } from '@angular/core';
 
-export type SkeletonShape = 'conversation-item' | 'field' | 'row';
+export type SkeletonShape = 'conversation' | 'field' | 'message' | 'row';
 export type SkeletonTone = 'brand' | 'neutral';
 
 const SKELETON_TONE_CLASSES: Record<SkeletonTone, string> = {
