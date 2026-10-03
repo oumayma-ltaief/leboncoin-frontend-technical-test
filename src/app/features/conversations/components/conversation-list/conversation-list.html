@@ -4,7 +4,7 @@
 
 <nav class="flex flex-1 flex-col overflow-y-auto" aria-label="Conversations">
   @if (isLoading()) {
-    <app-skeleton shape="conversation-item" itemCount="3" />
+    <app-skeleton shape="conversation" itemCount="3" />
   } @else if (activeUser(); as user) {
     @if (conversationListLoadingError(); as error) {
       <app-error-message class="flex-1" title="Couldn't load conversations" [error]="error" (retry)="reloadConversationList()" />
