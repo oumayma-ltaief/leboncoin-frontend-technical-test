@@ -22,11 +22,17 @@ describe('ConversationList', () => {
   let userSession: {
     activeUser: WritableSignal<User | undefined>;
     isLoadingUserList: WritableSignal<boolean>;
+    userList: WritableSignal<User[]>;
   };
 
   function getContent(): string {
     fixture.detectChanges();
     return conversationListElement.querySelector('nav')!.textContent.trim();
+  }
+
+  function getNewConversationButton(): HTMLElement | null {
+    fixture.detectChanges();
+    return conversationListElement.querySelector('app-new-conversation');
   }
 
   function initMocks(): void {
@@ -38,7 +44,8 @@ describe('ConversationList', () => {
     };
     userSession = {
       activeUser: signal<User | undefined>({ id: 1, nickname: 'Alice', token: 'token-1' }),
-      isLoadingUserList: signal(false)
+      isLoadingUserList: signal(false),
+      userList: signal<User[]>([])
     };
   }
 
@@ -57,14 +64,16 @@ describe('ConversationList', () => {
 
   describe('Show conversation list of the active user', () => {
     describe('When user list or conversation list is loading', () => {
-      it('should show a skeleton instead of the conversations', () => {
+      it('should show a skeleton instead of the conversations and not let a conversation be started', () => {
         userSession.isLoadingUserList.set(true);
         expect(getContent()).toBe('');
         expect(conversationListElement.querySelector('app-skeleton')).not.toBeNull();
+        expect(getNewConversationButton()).toBeNull();
         userSession.isLoadingUserList.set(false);
         activeUserConversations.isLoadingConversationList.set(true);
         expect(getContent()).toBe('');
         expect(conversationListElement.querySelector('app-skeleton')).not.toBeNull();
+        expect(getNewConversationButton()).toBeNull();
       });
     });
 
@@ -76,10 +85,12 @@ describe('ConversationList', () => {
     });
 
     describe('When conversation list failed to load', () => {
-      it('should show the error instead of the conversations', () => {
+      it('should show the error instead of the conversations and not let a conversation be started', () => {
         expect(getContent()).not.toContain("Couldn't load conversations");
+        expect(getNewConversationButton()).not.toBeNull();
         activeUserConversations.conversationListLoadingError.set(new AppError('network'));
         expect(getContent()).toContain("Couldn't load conversations");
+        expect(getNewConversationButton()).toBeNull();
       });
     });
 
@@ -110,7 +121,7 @@ describe('ConversationList', () => {
         activeUserConversations.conversationListLoadingError.set(new AppError('network'));
         fixture.detectChanges();
         expect(activeUserConversations.reloadConversationList).not.toHaveBeenCalled();
-        conversationListElement.querySelector('button')!.click();
+        conversationListElement.querySelector<HTMLButtonElement>('app-error-message button')!.click();
         expect(activeUserConversations.reloadConversationList).toHaveBeenCalledTimes(1);
       });
     });

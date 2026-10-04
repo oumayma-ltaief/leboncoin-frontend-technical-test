@@ -2,8 +2,11 @@ import { AppError } from '../../../../core/errors/models/app-error/app-error';
 import { computed, inject, resource, Service } from '@angular/core';
 import { Conversation } from '../../models/conversation/conversation.interface';
 import { Conversations } from '../conversations/conversations';
-import { firstValueFrom } from 'rxjs';
+import { dateToTimestamp } from '../../../../shared/utils/date-to-timestamp/date-to-timestamp';
+import { firstValueFrom, Observable, tap } from 'rxjs';
+import { NewConversation } from '../../models/new-conversation/new-conversation.interface';
 import { toAppError } from '../../../../core/errors/utils/to-app-error/to-app-error';
+import { User } from '../../../../core/users/models/user/user.interface';
 import { UserSession } from '../../../../core/users/services/user-session/user-session';
 
 @Service()
@@ -25,12 +28,36 @@ export class ActiveUserConversations {
     return this.isConversationListLoadingFailure(error) ? toAppError(error) : undefined;
   });
 
+  createConversation(sender: User, recipient: User): Observable<Conversation> {
+    return this.conversationsService
+      .createConversation(this.buildNewConversation(sender, recipient))
+      .pipe(tap((createdConversation) => this.addConversation(createdConversation)));
+  }
+
+  findConversationWith(user: User): Conversation | undefined {
+    return this.conversationList().find((conversation) => conversation.senderId === user.id || conversation.recipientId === user.id);
+  }
+
   isActiveUserParticipantOfConversation(conversationId: number): boolean {
     return this.conversationList().some((conversation) => conversation.id === conversationId);
   }
 
   reloadConversationList(): void {
     this.activeUserConversationsResource.reload();
+  }
+
+  private addConversation(conversation: Conversation): void {
+    this.activeUserConversationsResource.set([...this.conversationList(), conversation]);
+  }
+
+  private buildNewConversation(sender: User, recipient: User): NewConversation {
+    return {
+      lastMessageTimestamp: dateToTimestamp(new Date()),
+      recipientId: recipient.id,
+      recipientNickname: recipient.nickname,
+      senderId: sender.id,
+      senderNickname: sender.nickname
+    };
   }
 
   private isConversationListLoadingFailure(error: Error | undefined): boolean {

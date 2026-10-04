@@ -1,5 +1,8 @@
-<header class="flex h-14 shrink-0 items-center border-b border-line px-4">
+<header class="flex h-14 shrink-0 items-center justify-between border-b border-line pr-2 pl-4">
   <h1 class="text-lg font-bold">Messages</h1>
+  @if (isReadyToCreateConversation()) {
+    <app-new-conversation [activeUser]="activeUser()!" />
+  }
 </header>
 
 <nav class="flex flex-1 flex-col overflow-y-auto" aria-label="Conversations">
@@ -17,7 +20,7 @@
         }
       </ul>
     } @else {
-      <app-info-message class="flex-1" title="No conversations yet" description="Your conversations will appear here." />
+      <app-info-message class="flex-1" title="No conversations yet" description="Start one with the button above." />
     }
   } @else {
     <app-info-message class="flex-1" title="No active user" description="Conversations will appear here once a user is active." />
