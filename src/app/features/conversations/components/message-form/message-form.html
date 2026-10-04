@@ -1,0 +1,39 @@
+<form class="p-3" (submit)="submitMessage($event)">
+  <div class="flex items-end gap-2">
+    <textarea
+      rows="1"
+      class="field-sizing-content max-h-32 min-h-10 md:min-h-20 min-w-0 flex-1 resize-none rounded-2xl border border-line bg-surface-muted px-4 py-2 text-[15px] leading-snug text-content placeholder:text-content-muted focus:border-brand focus:ring-1 focus:ring-brand focus:outline-none"
+      placeholder="Write a message"
+      aria-label="Message"
+      aria-describedby="message-sending-hint"
+      [maxLength]="maxMessageLength"
+      [value]="messageBody()"
+      (input)="updateMessageBody($event)"
+      (keydown.enter)="submitMessage($event)"
+    ></textarea>
+    <button
+      type="submit"
+      class="flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-full bg-brand text-on-brand transition duration-150 hover:bg-brand-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:opacity-50 motion-safe:active:scale-95"
+      aria-label="Send message"
+      title="Send message"
+      [disabled]="!isMessageReadyToSend()"
+    >
+      <svg
+        class="size-5"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M6 12L3.27 3.13a59.77 59.77 0 0 1 18.21 8.87 59.77 59.77 0 0 1-18.21 8.88L6 12zm0 0h7.5" />
+      </svg>
+    </button>
+  </div>
+  <p id="message-sending-hint" class="px-4 pt-1.5 text-xs text-content-muted pointer-coarse:hidden">
+    Press <kbd class="font-sans font-semibold text-content-secondary">Enter</kbd> to send,
+    <kbd class="font-sans font-semibold text-content-secondary">Shift + Enter</kbd> for a new line.
+  </p>
+</form>
