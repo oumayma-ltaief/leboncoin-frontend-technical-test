@@ -1,9 +1,10 @@
-<header class="flex h-14 shrink-0 items-center justify-between border-b border-gray-200 bg-white px-4">
+<header class="flex h-14 shrink-0 items-center justify-between border-b border-line bg-surface px-4">
   <a routerLink="/" title="Back to home" class="flex shrink-0 items-center">
     <img src="leboncoin-logo.svg" alt="leboncoin" width="164" height="30" class="h-5 w-auto sm:h-7" />
   </a>
 
   <div class="flex min-w-0 flex-1 items-center justify-end gap-2 pl-3 sm:gap-3">
+    <app-theme-toggle />
     <app-active-user />
     <app-user-selector class="flex min-w-0 justify-end" />
   </div>

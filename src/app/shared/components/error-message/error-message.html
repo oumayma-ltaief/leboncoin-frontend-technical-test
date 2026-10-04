@@ -1,6 +1,6 @@
 @if (isCompact()) {
   <div class="flex items-center gap-2">
-    <p class="flex items-center gap-1.5 text-sm font-semibold text-red-700" [title]="error().message">
+    <p class="flex items-center gap-1.5 text-sm font-semibold text-danger" [title]="error().message">
       <app-error-icon class="size-5 shrink-0" [errorKind]="error().kind" />
       <span class="sr-only sm:not-sr-only">{{ title() }}</span>
       <span class="sr-only">{{ error().message }}</span>
@@ -9,11 +9,11 @@
   </div>
 } @else {
   <div class="flex flex-1 flex-col items-center justify-center gap-2 p-6 text-center">
-    <div class="mb-3 flex size-12 items-center justify-center rounded-full bg-red-100 text-red-600 ring-8 ring-red-50">
+    <div class="mb-3 flex size-12 items-center justify-center rounded-full bg-danger-soft text-danger ring-8 ring-danger-subtle">
       <app-error-icon class="size-6" [errorKind]="error().kind" />
     </div>
-    <h2 class="text-sm font-semibold text-gray-900">{{ title() }}</h2>
-    <p class="max-w-xs text-sm text-gray-500">{{ error().message }}</p>
+    <h2 class="text-sm font-semibold text-content">{{ title() }}</h2>
+    <p class="max-w-xs text-sm text-content-muted">{{ error().message }}</p>
     <button type="button" class="button-primary mt-2" (click)="retry.emit()">Try again</button>
   </div>
 }

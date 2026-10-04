@@ -1,17 +1,17 @@
 <div class="flex max-w-[85%] items-end gap-2 md:max-w-[65%]">
   @if (!isSentByActiveUser()) {
-    <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-orange-100 text-xs font-bold text-brand-dark" aria-hidden="true">
+    <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-brand-tint text-xs font-bold text-brand-strong" aria-hidden="true">
       {{ authorNickname()[0] | uppercase }}
     </span>
   }
   <p
-    class="min-w-0 rounded-2xl px-4 py-2 text-[15px] leading-snug break-words whitespace-pre-line text-gray-900"
-    [class]="isSentByActiveUser() ? 'rounded-br-md bg-orange-100' : 'rounded-bl-md bg-white shadow-sm'"
+    class="min-w-0 rounded-2xl px-4 py-2 text-[15px] leading-snug break-words whitespace-pre-line text-content"
+    [class]="isSentByActiveUser() ? 'rounded-br-md bg-brand-tint' : 'rounded-bl-md bg-surface shadow-sm'"
   >
     {{ message().body }}
   </p>
 </div>
-<span class="mt-1 px-1 text-xs text-gray-500" [class.pl-11]="!isSentByActiveUser()">
-  <span class="font-semibold text-gray-700">{{ authorNickname() }}</span>
+<span class="mt-1 px-1 text-xs text-content-muted" [class.pl-11]="!isSentByActiveUser()">
+  <span class="font-semibold text-content-secondary">{{ authorNickname() }}</span>
   · {{ sendingDate() | date: 'HH:mm' }}
 </span>

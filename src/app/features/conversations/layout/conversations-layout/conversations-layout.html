@@ -1,9 +1,9 @@
 <div class="flex h-full">
-  <aside class="w-full shrink-0 flex-col border-r border-gray-200 bg-white md:flex md:w-80" [class]="isConversationOpen() ? 'hidden' : 'flex'">
+  <aside class="w-full shrink-0 flex-col border-r border-line bg-surface md:flex md:w-80" [class]="isConversationOpen() ? 'hidden' : 'flex'">
     <app-conversation-list class="min-h-0 flex-1" />
   </aside>
 
-  <section aria-label="Conversation" class="min-w-0 flex-1 flex-col bg-gray-50 md:flex" [class]="isConversationOpen() ? 'flex' : 'hidden'">
+  <section aria-label="Conversation" class="min-w-0 flex-1 flex-col bg-surface-muted md:flex" [class]="isConversationOpen() ? 'flex' : 'hidden'">
     <router-outlet />
   </section>
 </div>

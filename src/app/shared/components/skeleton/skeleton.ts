@@ -4,8 +4,8 @@ export type SkeletonShape = 'conversation' | 'field' | 'message' | 'row';
 export type SkeletonTone = 'brand' | 'neutral';
 
 const SKELETON_TONE_CLASSES: Record<SkeletonTone, string> = {
-  brand: 'bg-orange-100',
-  neutral: 'bg-gray-100'
+  brand: 'bg-brand-tint',
+  neutral: 'bg-surface-subtle'
 };
 
 @Component({

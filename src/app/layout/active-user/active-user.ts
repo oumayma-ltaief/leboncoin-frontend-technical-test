@@ -3,9 +3,9 @@ import { Connectivity } from '../../core/connectivity/services/connectivity/conn
 import { UpperCasePipe } from '@angular/common';
 import { UserSession } from '../../core/users/services/user-session/user-session';
 
-const OFFLINE_STATUS_CLASS = 'bg-red-400';
+const OFFLINE_STATUS_CLASS = 'bg-offline';
 const OFFLINE_STATUS_LABEL = 'offline';
-const ONLINE_STATUS_CLASS = 'bg-green-500';
+const ONLINE_STATUS_CLASS = 'bg-online';
 const ONLINE_STATUS_LABEL = 'online';
 
 @Component({

@@ -9,18 +9,18 @@
 </ng-template>
 
 @if (isCompact()) {
-  <p class="flex items-center gap-1.5 text-sm font-medium text-gray-600" [title]="description() ?? ''">
-    <span class="size-5 shrink-0 text-brand-dark"><ng-container [ngTemplateOutlet]="icon" /></span>
+  <p class="flex items-center gap-1.5 text-sm font-medium text-content-secondary" [title]="description() ?? ''">
+    <span class="size-5 shrink-0 text-brand-strong"><ng-container [ngTemplateOutlet]="icon" /></span>
     {{ title() }}
   </p>
 } @else {
   <div class="flex flex-1 flex-col items-center justify-center gap-2 p-6 text-center">
-    <div class="mb-3 flex size-12 items-center justify-center rounded-full bg-orange-100 text-brand-dark ring-8 ring-brand-soft">
+    <div class="mb-3 flex size-12 items-center justify-center rounded-full bg-brand-tint text-brand-strong ring-8 ring-brand-soft">
       <span class="size-6"><ng-container [ngTemplateOutlet]="icon" /></span>
     </div>
-    <h2 class="text-sm font-semibold text-gray-900">{{ title() }}</h2>
+    <h2 class="text-sm font-semibold text-content">{{ title() }}</h2>
     @if (description(); as description) {
-      <p class="max-w-xs text-sm text-gray-500">{{ description }}</p>
+      <p class="max-w-xs text-sm text-content-muted">{{ description }}</p>
     }
   </div>
 }
