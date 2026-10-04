@@ -65,6 +65,7 @@
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
+            "setupFiles": ["src/test-setup.ts"],
             "coverage": true,
             "coverageReporters": ["html", "text-summary", "lcov"],
             "coverageInclude": ["src/app/**/*.ts"],

@@ -54,19 +54,19 @@ describe('ActiveUser', () => {
   describe('Online status setting', () => {
     it('should become offline when connectivity is lost', () => {
       expect(getConnectivityStatus().label).toBe('Alice, online');
-      expect(getConnectivityStatus().indicatorClass).toContain('bg-green-500');
+      expect(getConnectivityStatus().indicatorClass).toContain('bg-online');
       isConnectionAvailable.set(false);
       expect(getConnectivityStatus().label).toBe('Alice, offline');
-      expect(getConnectivityStatus().indicatorClass).toContain('bg-red-400');
+      expect(getConnectivityStatus().indicatorClass).toContain('bg-offline');
     });
 
     it('should become online when connectivity is back', () => {
       isConnectionAvailable.set(false);
       expect(getConnectivityStatus().label).toBe('Alice, offline');
-      expect(getConnectivityStatus().indicatorClass).toContain('bg-red-400');
+      expect(getConnectivityStatus().indicatorClass).toContain('bg-offline');
       isConnectionAvailable.set(true);
       expect(getConnectivityStatus().label).toBe('Alice, online');
-      expect(getConnectivityStatus().indicatorClass).toContain('bg-green-500');
+      expect(getConnectivityStatus().indicatorClass).toContain('bg-online');
     });
   });
 });

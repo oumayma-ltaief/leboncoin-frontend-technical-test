@@ -4,12 +4,59 @@
 
 @theme {
   --color-brand: #ff6e14;
-  --color-brand-dark: #b94700;
   --color-brand-soft: #fff1e8;
+  --color-brand-strong: #b94700;
+  --color-brand-tint: #ffedd4;
+  --color-content: #101828;
+  --color-content-muted: #646c7c;
+  --color-content-secondary: #364153;
+  --color-danger: #c10007;
+  --color-danger-soft: #ffe2e2;
+  --color-danger-subtle: #fef2f2;
+  --color-line: #e5e7eb;
+  --color-line-subtle: #f3f4f6;
+  --color-offline: #ff6467;
+  --color-on-brand: #ffffff;
+  --color-online: #00c950;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f9fafb;
+  --color-surface-subtle: #f3f4f6;
+}
+
+html.dark {
+  color-scheme: dark;
+  --color-brand-soft: #2c1c11;
+  --color-brand-strong: #ffb284;
+  --color-brand-tint: #4a2a14;
+  --color-content: #f3f4f6;
+  --color-content-muted: #a3a8b0;
+  --color-content-secondary: #d2d5da;
+  --color-danger: #fca5a5;
+  --color-danger-soft: #46191b;
+  --color-danger-subtle: #2a1213;
+  --color-line: #30333a;
+  --color-line-subtle: #23252b;
+  --color-on-brand: #17181c;
+  --color-surface: #17181c;
+  --color-surface-muted: #0f1012;
+  --color-surface-subtle: #23252b;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 400ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none;
+  }
 }
 
 @layer components {
   .button-primary {
-    @apply cursor-pointer rounded-xl bg-brand px-4 py-2 text-sm font-bold text-white transition duration-150 hover:bg-brand-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand motion-safe:active:scale-95;
+    @apply cursor-pointer rounded-xl bg-brand px-4 py-2 text-sm font-bold text-on-brand transition duration-150 hover:bg-brand-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand motion-safe:active:scale-95;
   }
 }

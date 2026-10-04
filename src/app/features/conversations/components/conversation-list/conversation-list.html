@@ -1,4 +1,4 @@
-<header class="flex h-14 shrink-0 items-center border-b border-gray-200 px-4">
+<header class="flex h-14 shrink-0 items-center border-b border-line px-4">
   <h1 class="text-lg font-bold">Messages</h1>
 </header>
 
@@ -9,7 +9,7 @@
     @if (conversationListLoadingError(); as error) {
       <app-error-message class="flex-1" title="Couldn't load conversations" [error]="error" (retry)="reloadConversationList()" />
     } @else if (conversationList().length) {
-      <ul class="divide-y divide-gray-100">
+      <ul class="divide-y divide-line-subtle">
         @for (conversation of conversationList(); track conversation.id) {
           <li>
             <app-conversation-item [activeUserId]="user.id" [conversation]="conversation" />
