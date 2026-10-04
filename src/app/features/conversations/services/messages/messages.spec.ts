@@ -2,6 +2,7 @@ import { API_URL } from '../../../../core/config/api.config';
 import { HttpErrorResponse, provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { Message } from '../../models/message/message.interface';
+import { NewMessage } from '../../models/new-message/new-message.interface';
 import { TestBed } from '@angular/core/testing';
 
 import { Messages } from './messages';
@@ -26,6 +27,38 @@ describe('Messages', () => {
 
   afterEach(() => {
     httpTestingController.verify();
+  });
+
+  describe('Create message', () => {
+    let messageCreationUrl: string;
+    let newMessage: NewMessage;
+
+    beforeEach(() => {
+      newMessage = { authorId: 1, body: 'Hello Bob', conversationId: 1, timestamp: 1625637849 };
+      messageCreationUrl = `${API_URL}/messages/${newMessage.conversationId}`;
+    });
+
+    it('should handle creating message successfully', () => {
+      const createdMessageId = 4;
+      let receivedMessage: Message | undefined;
+      messages.createMessage(newMessage).subscribe({ next: (messageResponse) => (receivedMessage = messageResponse) });
+      const messageCreationRequest = httpTestingController.expectOne(messageCreationUrl);
+      expect(messageCreationRequest.request.method).toBe('POST');
+      expect(messageCreationRequest.request.body).toEqual(newMessage);
+      expect(receivedMessage).toBeUndefined();
+      messageCreationRequest.flush({ id: createdMessageId });
+      expect(receivedMessage).toEqual({ ...newMessage, id: createdMessageId });
+    });
+
+    it('should handle creating message with error', () => {
+      let receivedError: HttpErrorResponse | undefined;
+      messages.createMessage(newMessage).subscribe({ error: (httpError: HttpErrorResponse) => (receivedError = httpError) });
+      const messageCreationRequest = httpTestingController.expectOne(messageCreationUrl);
+      expect(messageCreationRequest.request.method).toBe('POST');
+      expect(receivedError).toBeUndefined();
+      messageCreationRequest.flush('Service unavailable', { status: 503, statusText: 'Service Unavailable' });
+      expect(receivedError?.status).toBe(503);
+    });
   });
 
   describe('Get messages', () => {

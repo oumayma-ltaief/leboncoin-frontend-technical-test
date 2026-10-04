@@ -32,3 +32,17 @@
     <app-info-message class="flex-1" title="No messages yet" description="Messages of this conversation will appear here." />
   }
 </div>
+
+<footer class="@container shrink-0 border-t border-line bg-surface">
+  @if (isSendingMessage()) {
+    <app-info-message class="px-3 pt-3 motion-safe:animate-pulse" isCompact title="Sending…" />
+  }
+  @if (messageSendingFailure(); as failure) {
+    <app-error-message class="px-3 pt-3" isCompact title="Couldn't send message" [error]="failure.error" (retry)="sendMessage(failure.messageBody)" />
+  }
+  <app-message-form
+    [conversationId]="conversationId()"
+    [isMessageSendingDisabled]="isMessageSendingDisabled()"
+    (messageSubmitted)="sendMessage($event)"
+  />
+</footer>

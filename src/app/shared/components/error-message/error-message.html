@@ -2,7 +2,7 @@
   <div class="flex items-center gap-2">
     <p class="flex items-center gap-1.5 text-sm font-semibold text-danger" [title]="error().message">
       <app-error-icon class="size-5 shrink-0" [errorKind]="error().kind" />
-      <span class="sr-only sm:not-sr-only">{{ title() }}</span>
+      <span class="sr-only sm:not-sr-only @xs:not-sr-only">{{ title() }}</span>
       <span class="sr-only">{{ error().message }}</span>
     </p>
     <button type="button" class="button-primary" (click)="retry.emit()">Try again</button>
