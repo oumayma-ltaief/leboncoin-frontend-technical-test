@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1004 792" width="1004" height="792" role="img" aria-labelledby="component-tree-title">
+  <title id="component-tree-title">App contains Header and a router outlet. Header contains ThemeToggle, ActiveUser and UserSelector. The outlet shows ConversationsLayout, which contains ConversationList and a second outlet. ConversationList contains NewConversation, which contains ConversationRecipientDialog, and ConversationItem. The second outlet shows either ConversationEmpty or ConversationDetail. ConversationDetail contains MessageDateSeparator, MessageItem and MessageForm.</title>
+  <style>
+    text { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 11px; fill: #1a2330; }
+    .name { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-size: 13px; font-weight: 600; }
+    .muted { fill: #586474; }
+    .label { fill: #586474; }
+    .accent { fill: #d94f0c; }
+    .box { fill: #ffffff; stroke: #1a2330; stroke-width: 1.2; }
+    .leaf { fill: #f3f5f8; stroke: #1a2330; stroke-width: 1.2; }
+    .outlet { fill: #ffffff; stroke: #586474; stroke-width: 1.2; stroke-dasharray: 5 4; }
+  </style>
+  <rect width="1004" height="792" fill="#ffffff" />
+  <rect class="box" x="20" y="20" width="964" height="752" rx="4" />
+  <text class="name" x="32" y="44">App</text>
+  <text class="label" x="32" y="59">app shell</text>
+  <rect class="box" x="32" y="75" width="940" height="120" rx="4" />
+  <text class="name" x="44" y="99">Header</text>
+  <text class="label" x="44" y="114">layout/</text>
+  <rect class="leaf" x="44" y="130" width="299" height="53" rx="4" />
+  <text class="name" x="56" y="154">ThemeToggle</text>
+  <rect class="leaf" x="353" y="130" width="299" height="53" rx="4" />
+  <text class="name" x="365" y="154">ActiveUser</text>
+  <rect class="leaf" x="661" y="130" width="299" height="53" rx="4" />
+  <text class="name" x="673" y="154">UserSelector</text>
+  <text class="accent" x="673" y="169">Skeleton · ErrorMessage · InfoMessage</text>
+  <rect class="outlet" x="32" y="205" width="940" height="555" rx="4" />
+  <text class="name muted" x="44" y="229">router outlet</text>
+  <text class="label" x="44" y="244">/conversations · lazy-loaded</text>
+  <rect class="box" x="44" y="260" width="916" height="488" rx="4" />
+  <text class="name" x="56" y="284">ConversationsLayout</text>
+  <text class="label" x="56" y="299">features/conversations/</text>
+  <rect class="box" x="56" y="315" width="353" height="421" rx="4" />
+  <text class="name" x="68" y="339">ConversationList</text>
+  <text class="accent" x="68" y="354">Skeleton · ErrorMessage · InfoMessage</text>
+  <rect class="box" x="68" y="370" width="329" height="150" rx="4" />
+  <text class="name" x="80" y="394">NewConversation</text>
+  <text class="label" x="80" y="409">button in the list header</text>
+  <text class="accent" x="80" y="424">ErrorMessage</text>
+  <rect class="leaf" x="80" y="440" width="305" height="68" rx="4" />
+  <text class="name" x="92" y="464">ConversationRecipientDialog</text>
+  <text class="label" x="92" y="479">search box and recipient list</text>
+  <text class="accent" x="92" y="494">InfoMessage</text>
+  <rect class="leaf" x="68" y="530" width="329" height="68" rx="4" />
+  <text class="name" x="80" y="554">ConversationItem</text>
+  <text class="label" x="80" y="569">one per conversation</text>
+  <text class="accent" x="80" y="584">DayLabelPipe</text>
+  <rect class="outlet" x="419" y="315" width="529" height="421" rx="4" />
+  <text class="name muted" x="431" y="339">router outlet</text>
+  <text class="label" x="431" y="354">one of the two pages</text>
+  <rect class="leaf" x="431" y="370" width="505" height="68" rx="4" />
+  <text class="name" x="443" y="394">ConversationEmpty</text>
+  <text class="label" x="443" y="409">/conversations</text>
+  <text class="accent" x="443" y="424">InfoMessage</text>
+  <rect class="box" x="431" y="448" width="505" height="276" rx="4" />
+  <text class="name" x="443" y="472">ConversationDetail</text>
+  <text class="label" x="443" y="487">/conversations/:id · guarded</text>
+  <text class="accent" x="443" y="502">Skeleton · ErrorMessage · InfoMessage</text>
+  <rect class="leaf" x="443" y="518" width="481" height="68" rx="4" />
+  <text class="name" x="455" y="542">MessageDateSeparator</text>
+  <text class="label" x="455" y="557">one per day</text>
+  <text class="accent" x="455" y="572">DayLabelPipe</text>
+  <rect class="leaf" x="443" y="596" width="481" height="53" rx="4" />
+  <text class="name" x="455" y="620">MessageItem</text>
+  <text class="label" x="455" y="635">one per message</text>
+  <rect class="leaf" x="443" y="659" width="481" height="53" rx="4" />
+  <text class="name" x="455" y="683">MessageForm</text>
+  <text class="label" x="455" y="698">message box and send button</text>
+</svg>
