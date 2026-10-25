@@ -1,32 +1,28 @@
 import { API_URL } from '../../../../core/config/api.config';
-import { Conversation } from '../../models/conversation/conversation.interface';
-import { HttpErrorResponse, provideHttpClient } from '@angular/common/http';
-import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { NewConversation } from '../../models/new-conversation/new-conversation.interface';
-import { TestBed } from '@angular/core/testing';
+import type { AppError } from '../../../../core/errors/models/app-error/app-error';
+import type { Conversation } from '../../models/conversation/conversation';
+import type { MockInstance } from 'vitest';
+import type { NewConversation } from '../../models/new-conversation/new-conversation';
 
 import { Conversations } from './conversations';
 
 describe('Conversations', () => {
   let conversationList: Conversation[];
-  let conversations: Conversations;
-  let httpTestingController: HttpTestingController;
+  let fetchResponse: PromiseWithResolvers<Response>;
+  let fetchSpy: MockInstance<typeof fetch>;
 
   function initMocks(): void {
     conversationList = [{ id: 1, lastMessageTimestamp: 1625637849, recipientId: 2, recipientNickname: 'Bob', senderId: 1, senderNickname: 'Alice' }];
+    fetchResponse = Promise.withResolvers<Response>();
   }
 
   beforeEach(() => {
     initMocks();
-    TestBed.configureTestingModule({
-      providers: [provideHttpClient(), provideHttpClientTesting()]
-    });
-    conversations = TestBed.inject(Conversations);
-    httpTestingController = TestBed.inject(HttpTestingController);
+    fetchSpy = vi.spyOn(globalThis, 'fetch').mockReturnValue(fetchResponse.promise);
   });
 
   afterEach(() => {
-    httpTestingController.verify();
+    vi.restoreAllMocks();
   });
 
   describe('Create conversation', () => {
@@ -35,29 +31,35 @@ describe('Conversations', () => {
 
     beforeEach(() => {
       newConversation = { lastMessageTimestamp: 1625637849, recipientId: 2, recipientNickname: 'Bob', senderId: 1, senderNickname: 'Alice' };
-      conversationCreationUrl = `${API_URL}/conversations/${newConversation.senderId}`;
+      conversationCreationUrl = `${API_URL}/conversations/${String(newConversation.senderId)}`;
     });
 
-    it('should handle creating conversation successfully', () => {
+    it('should handle creating conversation successfully', async () => {
       const createdConversationId = 4;
       let receivedConversation: Conversation | undefined;
-      conversations.createConversation(newConversation).subscribe({ next: (conversationResponse) => (receivedConversation = conversationResponse) });
-      const conversationCreationRequest = httpTestingController.expectOne(conversationCreationUrl);
-      expect(conversationCreationRequest.request.method).toBe('POST');
-      expect(conversationCreationRequest.request.body).toEqual(newConversation);
+      const conversationCreationRequest = Conversations.createConversation(newConversation).then(
+        (conversationResponse: Conversation) => (receivedConversation = conversationResponse)
+      );
+      expect(fetchSpy).toHaveBeenCalledWith(
+        conversationCreationUrl,
+        expect.objectContaining({ body: JSON.stringify(newConversation), method: 'POST' })
+      );
       expect(receivedConversation).toBeUndefined();
-      conversationCreationRequest.flush({ id: createdConversationId });
+      fetchResponse.resolve(Response.json({ id: createdConversationId }));
+      await conversationCreationRequest;
       expect(receivedConversation).toEqual({ ...newConversation, id: createdConversationId });
     });
 
-    it('should handle creating conversation with error', () => {
-      let receivedError: HttpErrorResponse | undefined;
-      conversations.createConversation(newConversation).subscribe({ error: (httpError: HttpErrorResponse) => (receivedError = httpError) });
-      const conversationCreationRequest = httpTestingController.expectOne(conversationCreationUrl);
-      expect(conversationCreationRequest.request.method).toBe('POST');
+    it('should handle creating conversation with error', async () => {
+      let receivedError: AppError | undefined;
+      const conversationCreationRequest = Conversations.createConversation(newConversation).catch(
+        (error: unknown) => (receivedError = error as AppError)
+      );
+      expect(fetchSpy).toHaveBeenCalledWith(conversationCreationUrl, expect.objectContaining({ method: 'POST' }));
       expect(receivedError).toBeUndefined();
-      conversationCreationRequest.flush('Service unavailable', { status: 503, statusText: 'Service Unavailable' });
-      expect(receivedError?.status).toBe(503);
+      fetchResponse.resolve(new Response('Service unavailable', { status: 503, statusText: 'Service Unavailable' }));
+      await conversationCreationRequest;
+      expect(receivedError?.kind).toBe('unavailable');
     });
   });
 
@@ -67,27 +69,29 @@ describe('Conversations', () => {
 
     beforeEach(() => {
       userId = 1;
-      conversationsUrl = `${API_URL}/conversations/${userId}`;
+      conversationsUrl = `${API_URL}/conversations/${String(userId)}`;
     });
 
-    it('should handle loading conversation list successfully', () => {
+    it('should handle loading conversation list successfully', async () => {
       let receivedConversationList: Conversation[] | undefined;
-      conversations.getConversations(userId).subscribe({ next: (conversationsResponse) => (receivedConversationList = conversationsResponse) });
-      const conversationsRequest = httpTestingController.expectOne(conversationsUrl);
-      expect(conversationsRequest.request.method).toBe('GET');
+      const conversationsRequest = Conversations.getConversations(userId).then(
+        (conversationsResponse: Conversation[]) => (receivedConversationList = conversationsResponse)
+      );
+      expect(fetchSpy).toHaveBeenCalledWith(conversationsUrl, expect.objectContaining({ method: 'GET' }));
       expect(receivedConversationList).toBeUndefined();
-      conversationsRequest.flush(conversationList);
+      fetchResponse.resolve(Response.json(conversationList));
+      await conversationsRequest;
       expect(receivedConversationList).toEqual(conversationList);
     });
 
-    it('should handle loading conversation list with error', () => {
-      let receivedError: HttpErrorResponse | undefined;
-      conversations.getConversations(userId).subscribe({ error: (httpError: HttpErrorResponse) => (receivedError = httpError) });
-      const conversationsRequest = httpTestingController.expectOne(conversationsUrl);
-      expect(conversationsRequest.request.method).toBe('GET');
+    it('should handle loading conversation list with error', async () => {
+      let receivedError: AppError | undefined;
+      const conversationsRequest = Conversations.getConversations(userId).catch((error: unknown) => (receivedError = error as AppError));
+      expect(fetchSpy).toHaveBeenCalledWith(conversationsUrl, expect.objectContaining({ method: 'GET' }));
       expect(receivedError).toBeUndefined();
-      conversationsRequest.flush('Service unavailable', { status: 503, statusText: 'Service Unavailable' });
-      expect(receivedError?.status).toBe(503);
+      fetchResponse.resolve(new Response('Service unavailable', { status: 503, statusText: 'Service Unavailable' }));
+      await conversationsRequest;
+      expect(receivedError?.kind).toBe('unavailable');
     });
   });
 });

@@ -1,32 +1,28 @@
 import { API_URL } from '../../../../core/config/api.config';
-import { HttpErrorResponse, provideHttpClient } from '@angular/common/http';
-import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { Message } from '../../models/message/message.interface';
-import { NewMessage } from '../../models/new-message/new-message.interface';
-import { TestBed } from '@angular/core/testing';
+import type { AppError } from '../../../../core/errors/models/app-error/app-error';
+import type { Message } from '../../models/message/message';
+import type { MockInstance } from 'vitest';
+import type { NewMessage } from '../../models/new-message/new-message';
 
 import { Messages } from './messages';
 
 describe('Messages', () => {
-  let httpTestingController: HttpTestingController;
+  let fetchResponse: PromiseWithResolvers<Response>;
+  let fetchSpy: MockInstance<typeof fetch>;
   let messageList: Message[];
-  let messages: Messages;
 
   function initMocks(): void {
     messageList = [{ authorId: 1, body: 'Hello Bob', conversationId: 1, id: 1, timestamp: 1625637849 }];
+    fetchResponse = Promise.withResolvers<Response>();
   }
 
   beforeEach(() => {
     initMocks();
-    TestBed.configureTestingModule({
-      providers: [provideHttpClient(), provideHttpClientTesting()]
-    });
-    messages = TestBed.inject(Messages);
-    httpTestingController = TestBed.inject(HttpTestingController);
+    fetchSpy = vi.spyOn(globalThis, 'fetch').mockReturnValue(fetchResponse.promise);
   });
 
   afterEach(() => {
-    httpTestingController.verify();
+    vi.restoreAllMocks();
   });
 
   describe('Create message', () => {
@@ -35,29 +31,28 @@ describe('Messages', () => {
 
     beforeEach(() => {
       newMessage = { authorId: 1, body: 'Hello Bob', conversationId: 1, timestamp: 1625637849 };
-      messageCreationUrl = `${API_URL}/messages/${newMessage.conversationId}`;
+      messageCreationUrl = `${API_URL}/messages/${String(newMessage.conversationId)}`;
     });
 
-    it('should handle creating message successfully', () => {
+    it('should handle creating message successfully', async () => {
       const createdMessageId = 4;
       let receivedMessage: Message | undefined;
-      messages.createMessage(newMessage).subscribe({ next: (messageResponse) => (receivedMessage = messageResponse) });
-      const messageCreationRequest = httpTestingController.expectOne(messageCreationUrl);
-      expect(messageCreationRequest.request.method).toBe('POST');
-      expect(messageCreationRequest.request.body).toEqual(newMessage);
+      const messageCreationRequest = Messages.createMessage(newMessage).then((messageResponse: Message) => (receivedMessage = messageResponse));
+      expect(fetchSpy).toHaveBeenCalledWith(messageCreationUrl, expect.objectContaining({ body: JSON.stringify(newMessage), method: 'POST' }));
       expect(receivedMessage).toBeUndefined();
-      messageCreationRequest.flush({ id: createdMessageId });
+      fetchResponse.resolve(Response.json({ id: createdMessageId }));
+      await messageCreationRequest;
       expect(receivedMessage).toEqual({ ...newMessage, id: createdMessageId });
     });
 
-    it('should handle creating message with error', () => {
-      let receivedError: HttpErrorResponse | undefined;
-      messages.createMessage(newMessage).subscribe({ error: (httpError: HttpErrorResponse) => (receivedError = httpError) });
-      const messageCreationRequest = httpTestingController.expectOne(messageCreationUrl);
-      expect(messageCreationRequest.request.method).toBe('POST');
+    it('should handle creating message with error', async () => {
+      let receivedError: AppError | undefined;
+      const messageCreationRequest = Messages.createMessage(newMessage).catch((error: unknown) => (receivedError = error as AppError));
+      expect(fetchSpy).toHaveBeenCalledWith(messageCreationUrl, expect.objectContaining({ method: 'POST' }));
       expect(receivedError).toBeUndefined();
-      messageCreationRequest.flush('Service unavailable', { status: 503, statusText: 'Service Unavailable' });
-      expect(receivedError?.status).toBe(503);
+      fetchResponse.resolve(new Response('Service unavailable', { status: 503, statusText: 'Service Unavailable' }));
+      await messageCreationRequest;
+      expect(receivedError?.kind).toBe('unavailable');
     });
   });
 
@@ -67,27 +62,27 @@ describe('Messages', () => {
 
     beforeEach(() => {
       conversationId = 1;
-      messagesUrl = `${API_URL}/messages/${conversationId}`;
+      messagesUrl = `${API_URL}/messages/${String(conversationId)}`;
     });
 
-    it('should handle loading message list successfully', () => {
+    it('should handle loading message list successfully', async () => {
       let receivedMessageList: Message[] | undefined;
-      messages.getMessages(conversationId).subscribe({ next: (messagesResponse) => (receivedMessageList = messagesResponse) });
-      const messagesRequest = httpTestingController.expectOne(messagesUrl);
-      expect(messagesRequest.request.method).toBe('GET');
+      const messagesRequest = Messages.getMessages(conversationId).then((messagesResponse: Message[]) => (receivedMessageList = messagesResponse));
+      expect(fetchSpy).toHaveBeenCalledWith(messagesUrl, expect.objectContaining({ method: 'GET' }));
       expect(receivedMessageList).toBeUndefined();
-      messagesRequest.flush(messageList);
+      fetchResponse.resolve(Response.json(messageList));
+      await messagesRequest;
       expect(receivedMessageList).toEqual(messageList);
     });
 
-    it('should handle loading message list with error', () => {
-      let receivedError: HttpErrorResponse | undefined;
-      messages.getMessages(conversationId).subscribe({ error: (httpError: HttpErrorResponse) => (receivedError = httpError) });
-      const messagesRequest = httpTestingController.expectOne(messagesUrl);
-      expect(messagesRequest.request.method).toBe('GET');
+    it('should handle loading message list with error', async () => {
+      let receivedError: AppError | undefined;
+      const messagesRequest = Messages.getMessages(conversationId).catch((error: unknown) => (receivedError = error as AppError));
+      expect(fetchSpy).toHaveBeenCalledWith(messagesUrl, expect.objectContaining({ method: 'GET' }));
       expect(receivedError).toBeUndefined();
-      messagesRequest.flush('Service unavailable', { status: 503, statusText: 'Service Unavailable' });
-      expect(receivedError?.status).toBe(503);
+      fetchResponse.resolve(new Response('Service unavailable', { status: 503, statusText: 'Service Unavailable' }));
+      await messagesRequest;
+      expect(receivedError?.kind).toBe('unavailable');
     });
   });
 });

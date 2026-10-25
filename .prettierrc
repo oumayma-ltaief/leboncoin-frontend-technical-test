@@ -1,13 +1,5 @@
 {
   "printWidth": 150,
   "singleQuote": true,
-  "trailingComma": "none",
-  "overrides": [
-    {
-      "files": "*.html",
-      "options": {
-        "parser": "angular"
-      }
-    }
-  ]
+  "trailingComma": "none"
 }

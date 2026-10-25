@@ -1,5 +1,5 @@
-import { DailyMessages } from '../../models/daily-messages/daily-messages.interface';
-import { Message } from '../../models/message/message.interface';
+import type { DailyMessages } from '../../models/daily-messages/daily-messages';
+import type { Message } from '../../models/message/message';
 import { timestampToDate } from '../../../../shared/utils/timestamp-to-date/timestamp-to-date';
 
 export function groupMessagesByDay(messages: Message[]): DailyMessages[] {

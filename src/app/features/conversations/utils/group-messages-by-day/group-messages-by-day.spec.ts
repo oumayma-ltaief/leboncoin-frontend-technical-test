@@ -1,4 +1,4 @@
-import { Message } from '../../models/message/message.interface';
+import type { Message } from '../../models/message/message';
 
 import { groupMessagesByDay } from './group-messages-by-day';
 

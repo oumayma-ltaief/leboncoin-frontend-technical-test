@@ -1,10 +1,8 @@
-import { AppError, AppErrorKind } from '../../models/app-error/app-error';
-import { HttpErrorResponse } from '@angular/common/http';
-import { TimeoutError } from 'rxjs';
+import { AppError, type AppErrorKind } from '../../models/app-error/app-error';
+import { HttpError } from '../../models/http-error/http-error';
 
 const HTTP_STATUS = {
   INTERNAL_SERVER_ERROR: 500,
-  NETWORK_FAILURE: 0,
   NOT_FOUND: 404,
   SERVICE_UNAVAILABLE: 503,
   UNAUTHORIZED: 401
@@ -12,21 +10,33 @@ const HTTP_STATUS = {
 
 const ERROR_KIND_BY_HTTP_STATUS: Record<number, AppErrorKind> = {
   [HTTP_STATUS.INTERNAL_SERVER_ERROR]: 'server',
-  [HTTP_STATUS.NETWORK_FAILURE]: 'network',
   [HTTP_STATUS.NOT_FOUND]: 'not-found',
   [HTTP_STATUS.SERVICE_UNAVAILABLE]: 'unavailable',
   [HTTP_STATUS.UNAUTHORIZED]: 'unauthorized'
 };
 
+const TIMEOUT_ERROR_NAME = 'TimeoutError';
+
 function getErrorKind(error: unknown): AppErrorKind {
-  if (error instanceof HttpErrorResponse) {
+  if (error instanceof HttpError) {
     return getHttpErrorKind(error);
   }
-  return error instanceof TimeoutError ? 'unavailable' : 'unknown';
+  if (isNetworkFailure(error)) {
+    return 'network';
+  }
+  return isTimeoutError(error) ? 'unavailable' : 'unknown';
 }
 
-function getHttpErrorKind(httpError: HttpErrorResponse): AppErrorKind {
+function getHttpErrorKind(httpError: HttpError): AppErrorKind {
   return ERROR_KIND_BY_HTTP_STATUS[httpError.status] ?? 'unknown';
+}
+
+function isNetworkFailure(error: unknown): boolean {
+  return error instanceof TypeError;
+}
+
+function isTimeoutError(error: unknown): boolean {
+  return error instanceof DOMException && error.name === TIMEOUT_ERROR_NAME;
 }
 
 export function toAppError(error: unknown): AppError {

@@ -25,8 +25,8 @@
   <text class="name" x="673" y="154">UserSelector</text>
   <text class="accent" x="673" y="169">Skeleton · ErrorMessage · InfoMessage</text>
   <rect class="outlet" x="32" y="205" width="940" height="555" rx="4" />
-  <text class="name muted" x="44" y="229">router outlet</text>
-  <text class="label" x="44" y="244">/conversations · lazy-loaded</text>
+  <text class="name muted" x="44" y="229">route slot</text>
+  <text class="label" x="44" y="244">/conversations · own code chunk</text>
   <rect class="box" x="44" y="260" width="916" height="488" rx="4" />
   <text class="name" x="56" y="284">ConversationsLayout</text>
   <text class="label" x="56" y="299">features/conversations/</text>
@@ -44,9 +44,9 @@
   <rect class="leaf" x="68" y="530" width="329" height="68" rx="4" />
   <text class="name" x="80" y="554">ConversationItem</text>
   <text class="label" x="80" y="569">one per conversation</text>
-  <text class="accent" x="80" y="584">DayLabelPipe</text>
+  <text class="accent" x="80" y="584">formatDayLabel</text>
   <rect class="outlet" x="419" y="315" width="529" height="421" rx="4" />
-  <text class="name muted" x="431" y="339">router outlet</text>
+  <text class="name muted" x="431" y="339">route slot</text>
   <text class="label" x="431" y="354">one of the two pages</text>
   <rect class="leaf" x="431" y="370" width="505" height="68" rx="4" />
   <text class="name" x="443" y="394">ConversationEmpty</text>
@@ -54,12 +54,12 @@
   <text class="accent" x="443" y="424">InfoMessage</text>
   <rect class="box" x="431" y="448" width="505" height="276" rx="4" />
   <text class="name" x="443" y="472">ConversationDetail</text>
-  <text class="label" x="443" y="487">/conversations/:conversationId · guarded</text>
+  <text class="label" x="443" y="487">/conversations/[conversationId] · inside the guard</text>
   <text class="accent" x="443" y="502">Skeleton · ErrorMessage · InfoMessage</text>
   <rect class="leaf" x="443" y="518" width="481" height="68" rx="4" />
   <text class="name" x="455" y="542">MessageDateSeparator</text>
   <text class="label" x="455" y="557">one per day</text>
-  <text class="accent" x="455" y="572">DayLabelPipe</text>
+  <text class="accent" x="455" y="572">formatDayLabel</text>
   <rect class="leaf" x="443" y="596" width="481" height="53" rx="4" />
   <text class="name" x="455" y="620">MessageItem</text>
   <text class="label" x="455" y="635">one per message</text>
